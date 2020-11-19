@@ -2,6 +2,7 @@ package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
+import com.ftbworld.dating.exceptions.DatingDBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,7 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             return findById((Integer) keyHolder.getKeys().get("user_id"));
         } catch (Exception e) {
-            throw new DatingAuthException("Could not create account in DB.");
+            throw new DatingDBException("Could not create account in DB.");
         }
     }
 
