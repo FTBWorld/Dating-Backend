@@ -17,6 +17,8 @@ import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
+    // TODO: how come sometimes we return null, and sometimes we throw an exception?
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -57,7 +59,24 @@ public class UserRepositoryImpl implements UserRepository {
         // TODO: stop using this deprecated method.
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
         if (list.size() > 0) {
-            return list.get(0);
+            User user = list.get(0);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
+        if (list.size() > 0) {
+            User user = list.get(0);
+
+            if (user.getPassword().equals(password)) {
+                return user;
+            } else {
+                throw new DatingAuthException("Wrong username or password.");
+            }
         } else {
             return null;
         }
@@ -67,7 +86,8 @@ public class UserRepositoryImpl implements UserRepository {
     public User findById(int id) {
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_ID, new Object[]{id}, rowMapper);
         if (list.size() > 0) {
-            return list.get(0);
+            User user = list.get(0);
+            return user;
         } else {
             return null;
         }

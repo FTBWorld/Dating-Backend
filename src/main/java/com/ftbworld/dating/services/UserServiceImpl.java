@@ -15,8 +15,15 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Override
-    public User validate(String username, String password) throws DatingAuthException {
-        return null;
+    public User login(String username, String password) throws DatingAuthException {
+        User user = userRepository.findByUsernameAndPassword(username, password);
+
+        if (user == null) {
+            // Always give a generic error message, so an attacker doesn't know what was wrong about the credentials.
+            throw new DatingAuthException("Wrong username or password.");
+        }
+
+        return user;
     }
 
     @Override
