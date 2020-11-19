@@ -2,7 +2,7 @@ package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
-import com.ftbworld.dating.exceptions.DatingRequestException;
+import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public User register(String username, String password) throws DatingAuthException {
         if (password.length() < 10) {
-            throw new DatingRequestException("Password must be more than 10 characters.");
+            throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
 
         if (userRepository.findByUsername(username) != null) {
-            throw new DatingRequestException("That username is already taken!");
+            throw new DatingBadRequestException("That username is already taken!");
         }
 
         // Store passwords securely.
