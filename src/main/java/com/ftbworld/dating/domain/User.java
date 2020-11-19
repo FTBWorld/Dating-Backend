@@ -2,12 +2,12 @@ package com.ftbworld.dating.domain;
 
 public class User {
 
-    private int user_id;
+    private final int user_id;
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password; // TODO: some sort of change password feature? Might take too long.
 
-    private String display_name;
+    private String display_name; // TODO: a way to change these properties.
     private String bio;
 
     public User(int user_id, String username, String password, String display_name, String bio) {
@@ -22,24 +22,12 @@ public class User {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getDisplay_name() {

@@ -18,7 +18,7 @@ Make sure to sync Maven dependencies by opening `pom.xml` and clicking the sync 
 
 ## Info
 
-### How likes work
+### How likes and matches work
 
 A like is represented with a `user_id` (user who liked someone) and `liked_user` (the "someone").
 
