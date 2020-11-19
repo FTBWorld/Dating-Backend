@@ -15,7 +15,7 @@ public class DatingApplication {
 	}
 
 	@Autowired
-	AuthFilter authFilter; // We need to autowire this, since the filter relies on the UserRepository.
+	AuthFilter authFilter; // We need to autowire this, since the filter relies on a repository.
 
 	@Bean
 	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {

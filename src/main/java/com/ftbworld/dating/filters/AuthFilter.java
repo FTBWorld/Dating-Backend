@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component // Must be declared as a component for autowire to work.
+@Component // Must be declared as a component for autowire to work (so Spring loads the file).
 public class AuthFilter extends GenericFilterBean {
 
     @Autowired
