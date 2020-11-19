@@ -4,6 +4,7 @@ import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
 import com.ftbworld.dating.exceptions.DatingRequestException;
 import com.ftbworld.dating.repositories.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,10 @@ public class UserServiceImpl implements UserService{
             throw new DatingRequestException("That username is already taken!");
         }
 
-        User user = userRepository.create(username, password);
+        // Store passwords securely.
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
+
+        User user = userRepository.create(username, hashedPassword);
         return user;
     }
 }

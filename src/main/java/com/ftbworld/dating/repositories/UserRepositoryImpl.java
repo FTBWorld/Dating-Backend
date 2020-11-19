@@ -3,6 +3,7 @@ package com.ftbworld.dating.repositories;
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
 import com.ftbworld.dating.exceptions.DatingDBException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -30,6 +31,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User create(String username, String password) throws DatingAuthException {
         try {
+            // Password hashing is done in the service rather than here.
+            // Therefore, password argument is already stored securely.
+
+            // TODO: defaults should be set in the service, NOT here.
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
@@ -72,7 +77,7 @@ public class UserRepositoryImpl implements UserRepository {
         if (list.size() > 0) {
             User user = list.get(0);
 
-            if (user.getPassword().equals(password)) {
+            if (BCrypt.checkpw(password, user.getPassword())) {
                 return user;
             } else {
                 throw new DatingAuthException("Wrong username or password.");
