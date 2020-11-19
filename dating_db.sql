@@ -17,4 +17,19 @@ create table dating_users(
     bio text not null
 );
 
+create table dating_likes(
+    like_id integer primary key not null,
+
+    user_id integer not null,
+    liked_user integer not null,
+
+    foreign key(user_id)
+        references dating_users(user_id)
+        on delete cascade,
+    foreign key(liked_user)
+        references dating_users(user_id)
+        on delete cascade
+);
+
 create sequence dating_users_seq increment 1 start 1;
+create sequence dating_likes_seq increment 1 start 1;
