@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface LikeService {
 
+    // TODO: A user can like someone.
     Like createLike(int user_id, int liked_user) throws DatingBadRequestException;
 
+    // TODO: A user can unlike someone.
     void deleteLike(int user_id, int like_id) throws DatingBadRequestException;
 
     // TODO: A user can view who they liked.

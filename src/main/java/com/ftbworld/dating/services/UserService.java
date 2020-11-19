@@ -2,6 +2,7 @@ package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
+import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.exceptions.DatingNotFoundException;
 
 public interface UserService {
@@ -15,6 +16,6 @@ public interface UserService {
     User fetchById(int user_id) throws DatingNotFoundException;
 
     // TODO: A user can update their own profile.
-    User update(int user_id, User user);
+    User update(int user_id, User user) throws DatingBadRequestException;
 
 }
