@@ -7,10 +7,10 @@ public interface UserRepository {
 
     User create(String username, String password) throws DatingAuthException;
 
-    User findByUsername(String username);
+    User getByUsername(String username);
 
-    User findByUsernameAndPassword(String username, String password);
+    User getByUsernameAndPassword(String username, String password);
 
-    User findById(int id);
+    User getByID(int id);
 
 }

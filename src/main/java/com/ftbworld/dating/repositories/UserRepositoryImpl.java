@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
                 return preparedStatement;
             }, keyHolder);
 
-            return findById((Integer) keyHolder.getKeys().get("user_id"));
+            return getByID((int) keyHolder.getKeys().get("user_id"));
         } catch (Exception e) {
             throw new DatingDBException("Could not create account in DB.");
         }
@@ -60,7 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
     });
 
     @Override
-    public User findByUsername(String username) {
+    public User getByUsername(String username) {
         // TODO: stop using this deprecated method.
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
         if (list.size() > 0) {
@@ -72,7 +72,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findByUsernameAndPassword(String username, String password) {
+    public User getByUsernameAndPassword(String username, String password) {
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
         if (list.size() > 0) {
             User user = list.get(0);
@@ -88,7 +88,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findById(int id) {
+    public User getByID(int id) {
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_ID, new Object[]{id}, rowMapper);
         if (list.size() > 0) {
             User user = list.get(0);

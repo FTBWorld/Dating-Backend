@@ -3,15 +3,11 @@ package com.ftbworld.dating.filters;
 import com.ftbworld.dating.Constants;
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.repositories.UserRepository;
-import com.ftbworld.dating.services.UserService;
-import com.ftbworld.dating.services.UserServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -48,7 +44,7 @@ public class AuthFilter extends GenericFilterBean {
                 String username = claims.get("username").toString();
 
                 // Check if that user exists.
-                User user = userRepository.findById(user_id);
+                User user = userRepository.getByID(user_id);
                 if (user != null) {
                     // Attach data to the request.
                     httpServletRequest.setAttribute("user_id", user_id);

@@ -38,9 +38,9 @@ public class UserResource {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, Object> req) {
-        String username = (String) req.get("username");
-        String password = (String) req.get("password");
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, Object> body) {
+        String username = (String) body.get("username");
+        String password = (String) body.get("password");
 
         User user = userService.login(username, password);
         String token = generateJWTForUser(user);
@@ -52,9 +52,9 @@ public class UserResource {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> req) {
-        String username = (String) req.get("username");
-        String password = (String) req.get("password");
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> body) {
+        String username = (String) body.get("username");
+        String password = (String) body.get("password");
 
         User user = userService.register(username, password);
         String token = generateJWTForUser(user);

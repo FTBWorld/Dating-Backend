@@ -9,6 +9,8 @@ import java.util.List;
 // The service is responsible for permission handling. Argument 1 should be the user_id of who is performing the action.
 public interface LikeService {
 
+    // TODO: Think about exceptions here.
+
     // TODO: A user can like someone.
     Like createLike(int user_id, int liked_user) throws DatingBadRequestException;
 
@@ -16,15 +18,15 @@ public interface LikeService {
     void deleteLike(int user_id, int like_id) throws DatingBadRequestException;
 
     // TODO: A user can view who they liked.
-    List<Like> fetchLikesByUser(int user_id);
+    List<Like> getLikesByUser(int user_id);
 
     // TODO: A user can view who liked them.
-    List<Like> fetchLikesOfUser(int user_id);
+    List<Like> getLikesOfUser(int user_id);
 
     // TODO: If a user likes someone, and that someone likes them, it's a match.
-    List<Like> fetchMatchesOfUser(int user_id);
+    List<Like> getMatchesOfUser(int user_id);
 
     // TODO: A user can view a like that's related to them.
-    Like fetchLikeById(int user_id, int like_id) throws DatingNotFoundException;
+    Like getLikeById(int user_id, int like_id) throws DatingNotFoundException;
 
 }

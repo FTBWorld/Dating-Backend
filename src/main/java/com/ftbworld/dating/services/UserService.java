@@ -13,9 +13,9 @@ public interface UserService {
     User register(String username, String password) throws DatingAuthException;
 
     // TODO: Anyone can view a profile with an ID.
-    User fetchById(int user_id) throws DatingNotFoundException;
+    User getUserByID(int user_id) throws DatingNotFoundException;
 
     // TODO: A user can update their own profile.
-    User update(int user_id, User user) throws DatingBadRequestException;
+    User updateUserByID(int user_id, User user) throws DatingBadRequestException;
 
 }
