@@ -2,9 +2,11 @@ package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
+import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.exceptions.DatingDBException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -29,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_FIND_BY_ID = "select user_id, username, password, display_name, bio from dating_users where user_id = ?";
 
     @Override
-    public User create(String username, String password) throws DatingAuthException {
+    public User registerUser(String username, String password) throws DatingAuthException {
         try {
             // Password hashing is done in the service rather than here.
             // Therefore, password argument is already stored securely.
@@ -45,8 +47,12 @@ public class UserRepositoryImpl implements UserRepository {
                 return preparedStatement;
             }, keyHolder);
 
-            return getByID((int) keyHolder.getKeys().get("user_id"));
+            return getUserByID((int) keyHolder.getKeys().get("user_id"));
+        } catch (DuplicateKeyException e) {
+            throw new DatingBadRequestException("That username is already taken.");
         } catch (Exception e) {
+            e.printStackTrace();
+
             throw new DatingDBException("Could not create account in DB.");
         }
     }
@@ -60,7 +66,7 @@ public class UserRepositoryImpl implements UserRepository {
     });
 
     @Override
-    public User getByUsername(String username) {
+    public User getUserByUsername(String username) {
         // TODO: stop using this deprecated method.
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
         if (list.size() > 0) {
@@ -72,7 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getByUsernameAndPassword(String username, String password) {
+    public User getUserByUsernameAndPassword(String username, String password) {
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_USERNAME, new Object[]{username}, rowMapper);
         if (list.size() > 0) {
             User user = list.get(0);
@@ -88,7 +94,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getByID(int id) {
+    public User getUserByID(int id) {
         List<User> list = jdbcTemplate.query(SQL_FIND_BY_ID, new Object[]{id}, rowMapper);
         if (list.size() > 0) {
             User user = list.get(0);

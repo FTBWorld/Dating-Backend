@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String username, String password) throws DatingAuthException {
-        User user = userRepository.getByUsernameAndPassword(username, password);
+        User user = userRepository.getUserByUsernameAndPassword(username, password);
 
         if (user == null) {
             // Always give a generic error message, so an attacker doesn't know what was wrong about the credentials.
@@ -33,15 +33,10 @@ public class UserServiceImpl implements UserService{
         if (password.length() < 10) {
             throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
-
-        if (userRepository.getByUsername(username) != null) {
-            throw new DatingBadRequestException("That username is already taken!");
-        }
-
         // Store passwords securely in the controller, so it works in tests and REST.
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
-        User user = userRepository.create(username, hashedPassword);
+        User user = userRepository.registerUser(username, hashedPassword);
         return user;
     }
 

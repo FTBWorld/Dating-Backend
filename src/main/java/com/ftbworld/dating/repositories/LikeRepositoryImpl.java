@@ -1,6 +1,7 @@
 package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.Like;
+import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.exceptions.DatingDBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -40,7 +41,7 @@ public class LikeRepositoryImpl implements LikeRepository {
             return getLikeByID((int) keyHolder.getKeys().get("like_id"));
         } catch (DuplicateKeyException e) {
             // TODO: Not sure if I like DB exception for both expected and unexpected behaviour.
-            throw new DatingDBException("Like already exists.");
+            throw new DatingBadRequestException("Like already exists.");
         } catch (Exception e) {
             e.printStackTrace();
 
