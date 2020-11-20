@@ -5,12 +5,12 @@ import com.ftbworld.dating.exceptions.DatingAuthException;
 
 public interface UserRepository {
 
-    User registerUser(String username, String password) throws DatingAuthException;
+    User registerUser(String username, String password);
 
     User getUserByUsername(String username);
 
     User getUserByUsernameAndPassword(String username, String password);
 
-    User getUserByID(int id);
+    User getUserByID(int user_id);
 
 }

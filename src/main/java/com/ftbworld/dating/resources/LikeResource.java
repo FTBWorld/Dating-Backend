@@ -26,7 +26,7 @@ public class LikeResource {
         Like like = likeService.createLike(user_id, liked_user);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Like created!");
+        response.put("message", String.format("Like between (%s) and (%s) created!", user_id, liked_user));
         response.put("like", like);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

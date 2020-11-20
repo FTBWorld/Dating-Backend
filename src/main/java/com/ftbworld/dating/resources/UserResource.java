@@ -3,7 +3,6 @@ package com.ftbworld.dating.resources;
 import com.ftbworld.dating.Constants;
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.services.UserService;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,30 +37,30 @@ public class UserResource {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> body) {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
         User user = userService.login(username, password);
         String token = generateJWTForUser(user);
 
-        Map<String, String> res = new HashMap<>();
-        res.put("message", "Welcome back, " + user.getUsername() + ".");
-        res.put("token", token);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Welcome back, " + user.getUsername() + ".");
+        response.put("token", token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, Object> body) {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
-        User user = userService.register(username, password);
+        User user = userService.registerUser(username, password);
         String token = generateJWTForUser(user);
 
-        Map<String, String> res = new HashMap<>();
-        res.put("message", "Welcome, " + user.getUsername() + "!");
-        res.put("token", token);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Welcome, " + user.getUsername() + "!");
+        response.put("token", token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

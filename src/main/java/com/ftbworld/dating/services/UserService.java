@@ -8,9 +8,9 @@ import com.ftbworld.dating.exceptions.DatingNotFoundException;
 public interface UserService {
 
     // TODO: is auth exception the right one to throw?
-    User login(String username, String password) throws DatingAuthException;
+    User login(String username, String password);
 
-    User register(String username, String password) throws DatingAuthException;
+    User registerUser(String username, String password);
 
     // TODO: Anyone can view a profile with an ID.
     User getUserByID(int user_id) throws DatingNotFoundException;

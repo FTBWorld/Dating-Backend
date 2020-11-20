@@ -17,23 +17,17 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Override
-    public User login(String username, String password) throws DatingAuthException {
+    public User login(String username, String password) {
         User user = userRepository.getUserByUsernameAndPassword(username, password);
-
-        if (user == null) {
-            // Always give a generic error message, so an attacker doesn't know what was wrong about the credentials.
-            throw new DatingAuthException("Wrong username or password.");
-        }
-
         return user;
     }
 
     @Override
-    public User register(String username, String password) throws DatingAuthException {
+    public User registerUser(String username, String password) {
         if (password.length() < 10) {
             throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
-        // Store passwords securely in the controller, so it works in tests and REST.
+        // Store passwords securely in the service, so it works in tests and REST.
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
         User user = userRepository.registerUser(username, hashedPassword);
