@@ -22,13 +22,13 @@ create table dating_likes(
 
     user_id integer not null,
     liked_user integer not null,
-
     foreign key(user_id)
         references dating_users(user_id)
         on delete cascade,
     foreign key(liked_user)
         references dating_users(user_id)
-        on delete cascade
+        on delete cascade,
+    unique (user_id, liked_user)
 );
 
 create sequence dating_users_seq increment 1 start 1;

@@ -12,6 +12,14 @@ To setup the database (do this when setting up the project for the first time or
 
 `psql -U postgres -f dating_db.sql`
 
+If the command doesn't work:
+
+1. Make sure the Spring app isn't running.
+
+2. Close all command line windows using `psql`.
+
+3. Close pgAdmin in Task Manager.
+
 ### Maven
 
 Make sure to sync Maven dependencies by opening `pom.xml` and clicking the sync button in IntelliJ.
