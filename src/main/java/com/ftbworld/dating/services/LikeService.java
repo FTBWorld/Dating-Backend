@@ -6,6 +6,7 @@ import com.ftbworld.dating.exceptions.DatingNotFoundException;
 
 import java.util.List;
 
+// The service is responsible for permission handling. Argument 1 should be the user_id of who is performing the action.
 public interface LikeService {
 
     // TODO: A user can like someone.
@@ -24,6 +25,6 @@ public interface LikeService {
     List<Like> fetchMatchesOfUser(int user_id);
 
     // TODO: A user can view a like that's related to them.
-    Like fetchById(int user_id, int like_id) throws DatingNotFoundException;
+    Like fetchLikeById(int user_id, int like_id) throws DatingNotFoundException;
 
 }
