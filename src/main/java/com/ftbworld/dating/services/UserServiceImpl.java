@@ -1,9 +1,7 @@
 package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.User;
-import com.ftbworld.dating.exceptions.DatingAuthException;
 import com.ftbworld.dating.exceptions.DatingBadRequestException;
-import com.ftbworld.dating.exceptions.DatingNotFoundException;
 import com.ftbworld.dating.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUserByUsername(User user) {
-        return userRepository.updateUserByUsername(user);
+    public boolean updateUser(User user) {
+        return userRepository.updateUser(user);
     }
 }

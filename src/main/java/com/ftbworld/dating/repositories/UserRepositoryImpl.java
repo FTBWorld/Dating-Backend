@@ -30,10 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
             "select * from dating_users where username = ?";
     private static final String SQL_UPDATE_USER_BY_USERNAME =
             "update dating_users " +
-                    "set username = ?, " +
-                    "set password = ?, " +
                     "set display_name = ?, " +
-                    "set bio = ? " +
+                    "bio = ? " +
                     "where username = ?";
 
     @Override
@@ -92,13 +90,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean updateUserByUsername(User user) {
+    public boolean updateUser(User user) {
         int result = jdbcTemplate.update(SQL_UPDATE_USER_BY_USERNAME,
-                user.getUsername(), // Username is final, so no worries.
-                user.getPassword(),
                 user.getDisplay_name(),
                 user.getBio(),
-                user.getUsername()); // Username is search criteria.
-        return result == 1;
+                user.getUsername()); // Username is where criteria.
+        return result == 1; // Returns true if update made.
     }
 }

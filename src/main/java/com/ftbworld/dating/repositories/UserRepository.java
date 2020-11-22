@@ -11,6 +11,6 @@ public interface UserRepository {
 
     User getUserByUsernameAndPassword(String username, String password);
 
-    boolean updateUserByUsername(User user);
+    boolean updateUser(User user);
 
 }
