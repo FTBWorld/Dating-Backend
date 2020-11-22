@@ -12,9 +12,9 @@ public interface UserService {
     User registerUser(String username, String password);
 
     // TODO: Must be logged in, do this on the REST side.
-    User getUserByUsername(String username) throws DatingNotFoundException;
+    User getUserByUsername(String username);
 
     // TODO: A user can update their own profile.
-    User updateUserByUsername(String username, User user) throws DatingBadRequestException;
+    User updateUserByUsername(String username, User user);
 
 }

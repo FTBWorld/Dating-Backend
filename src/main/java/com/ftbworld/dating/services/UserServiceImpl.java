@@ -35,13 +35,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserByUsername(String username) throws DatingNotFoundException {
+    public User getUserByUsername(String username) {
         User user = userRepository.getUserByUsername(username);
         return user;
     }
 
     @Override
-    public User updateUserByUsername(String username, User user) throws DatingBadRequestException {
+    public User updateUserByUsername(String username, User user) {
         return null;
     }
 }
