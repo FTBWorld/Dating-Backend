@@ -18,8 +18,10 @@ public class LikeServiceImpl implements LikeService{
 
     @Override
     public Like createLike(int user_id, int liked_user) throws DatingBadRequestException {
-        // TODO: make sure that the liked_user exists.
-        // TODO: no duplicate likes.
+        if (user_id == liked_user) {
+            // We can handle this using SQL alone, but then we'd have 2 catches for unique exceptions.
+            throw new DatingBadRequestException("Can't like yourself.");
+        }
 
         Like like = likeRepository.createLike(user_id, liked_user);
         return like;
