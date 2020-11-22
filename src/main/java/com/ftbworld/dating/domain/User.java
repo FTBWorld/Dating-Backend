@@ -1,5 +1,8 @@
 package com.ftbworld.dating.domain;
 
+// TODO: created.
+// TODO: modified.
+// https://stackoverflow.com/a/9556527/11606132
 public class User {
 
     private final String username;
