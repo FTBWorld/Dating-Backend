@@ -15,6 +15,12 @@ public class User {
         this.bio = bio;
     }
 
+    // Use this for displaying publicly, since it will censor the passwords and other sensitive data.
+    public User toProfile() {
+        User profile = new User(this.username, "<censored>", this.display_name, this.bio);
+        return profile;
+    }
+
     public String getUsername() {
         return username;
     }

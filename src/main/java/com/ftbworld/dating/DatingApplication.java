@@ -25,7 +25,6 @@ public class DatingApplication {
 
 		// Filers will be applied to these URLs.
 		registrationBean.addUrlPatterns("/api/dating/*");
-		registrationBean.addUrlPatterns("/api/user/*");
 
 		return registrationBean;
 	}
