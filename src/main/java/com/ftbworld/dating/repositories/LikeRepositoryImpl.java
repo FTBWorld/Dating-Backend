@@ -2,10 +2,11 @@ package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.Like;
 import com.ftbworld.dating.exceptions.DatingBadRequestException;
-import com.ftbworld.dating.exceptions.DatingDBException;
+import com.ftbworld.dating.exceptions.DatingNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,6 +28,12 @@ public class LikeRepositoryImpl implements LikeRepository {
 
     private static final String SQL_GET_LIKE_BY_ID =
             "select like_id, user_id, liked_user from dating_likes where like_id = ?";
+
+    private static final String SQL_GET_LIKES_BY_USER =
+            "select like_id, user_id, liked_user from dating_likes where user_id = ?";
+
+    private static final String SQL_GET_LIKES_OF_USER =
+            "select like_id, user_id, liked_user from dating_likes where liked_user = ?";
 
     @Override
     public Like createLike(int user_id, int liked_user) {
@@ -61,12 +68,14 @@ public class LikeRepositoryImpl implements LikeRepository {
 
     @Override
     public List<Like> getLikesByUser(int user_id) {
-        return null;
+        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_BY_USER, new Object[]{user_id}, likeRowMapper);
+        return likes;
     }
 
     @Override
     public List<Like> getLikesOfUser(int user_id) {
-        return null;
+        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_OF_USER, new Object[]{user_id}, likeRowMapper);
+        return likes;
     }
 
     @Override
@@ -74,14 +83,14 @@ public class LikeRepositoryImpl implements LikeRepository {
         return null;
     }
 
+    // TODO: you shouldn't be able to find a like with an ID if it doesn't involve you!
     @Override
     public Like getLikeByID(int like_id) {
-        List<Like> list = jdbcTemplate.query(SQL_GET_LIKE_BY_ID, new Object[]{like_id}, likeRowMapper);
-        if (list.size() > 0) {
-            Like like = list.get(0);
+        try {
+            Like like = jdbcTemplate.queryForObject(SQL_GET_LIKE_BY_ID, new Object[]{like_id}, likeRowMapper);
             return like;
-        } else {
-            return null;
+        } catch (EmptyResultDataAccessException e) {
+            throw new DatingNotFoundException(String.format("Like (%s) not found.", like_id));
         }
     }
 }

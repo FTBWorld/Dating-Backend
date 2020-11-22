@@ -34,12 +34,14 @@ public class LikeServiceImpl implements LikeService{
 
     @Override
     public List<Like> getLikesByUser(int user_id) {
-        return null;
+        List<Like> likes = likeRepository.getLikesByUser(user_id);
+        return likes;
     }
 
     @Override
     public List<Like> getLikesOfUser(int user_id) {
-        return null;
+        List<Like> likes = likeRepository.getLikesOfUser(user_id);
+        return likes;
     }
 
     @Override

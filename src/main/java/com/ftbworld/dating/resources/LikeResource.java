@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,12 +32,25 @@ public class LikeResource {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("") // Do not use "/"! It doesn't match.
-    public String getMyMatches(HttpServletRequest request) {
+    @GetMapping("/my_likes")
+    public ResponseEntity<Map<String, Object>> getMyLikes(HttpServletRequest request) {
         int user_id = (int) request.getAttribute("user_id");
-        String username = (String) request.getAttribute("username");
 
-        return String.format("Hello, '%s' (%s).", username, user_id);
+        List<Like> likes = likeService.getLikesByUser(user_id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("likes", likes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/likes_me")
+    public ResponseEntity<Map<String, Object>> getLikesOfMe(HttpServletRequest request) {
+        int user_id = (int) request.getAttribute("user_id");
+
+        List<Like> likes = likeService.getLikesOfUser(user_id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("likes", likes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
