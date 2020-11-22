@@ -15,6 +15,6 @@ public interface UserService {
     User getUserByUsername(String username);
 
     // TODO: A user can update their own profile.
-    User updateUserByUsername(String username, User user);
+    boolean updateUserByUsername(User user);
 
 }

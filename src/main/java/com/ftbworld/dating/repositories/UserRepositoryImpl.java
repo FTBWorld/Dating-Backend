@@ -28,6 +28,13 @@ public class UserRepositoryImpl implements UserRepository {
             "insert into dating_users(username, password, display_name, bio) values(?, ?, ?, ?)";
     private static final String SQL_GET_USER_BY_USERNAME =
             "select * from dating_users where username = ?";
+    private static final String SQL_UPDATE_USER_BY_USERNAME =
+            "update dating_users " +
+                    "set username = ?, " +
+                    "set password = ?, " +
+                    "set display_name = ?, " +
+                    "set bio = ? " +
+                    "where username = ?";
 
     @Override
     public User registerUser(String username, String password) {
@@ -51,7 +58,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
+    private final RowMapper<User> userRowMapper = ((rs, rowNum) -> {
         return new User(rs.getString("username"),
                 rs.getString("password"),
                 rs.getString("display_name"),
@@ -82,5 +89,16 @@ public class UserRepositoryImpl implements UserRepository {
             // User does not exist. Give generic error message to attacker.
             throw new DatingAuthException("Wrong username or password.");
         }
+    }
+
+    @Override
+    public boolean updateUserByUsername(User user) {
+        int result = jdbcTemplate.update(SQL_UPDATE_USER_BY_USERNAME,
+                user.getUsername(), // Username is final, so no worries.
+                user.getPassword(),
+                user.getDisplay_name(),
+                user.getBio(),
+                user.getUsername()); // Username is search criteria.
+        return result == 1;
     }
 }

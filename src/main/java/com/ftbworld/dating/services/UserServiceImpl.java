@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUserByUsername(String username, User user) {
-        return null;
+    public boolean updateUserByUsername(User user) {
+        return userRepository.updateUserByUsername(user);
     }
 }

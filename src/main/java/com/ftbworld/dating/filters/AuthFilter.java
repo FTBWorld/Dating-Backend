@@ -48,7 +48,7 @@ public class AuthFilter extends GenericFilterBean {
                     httpServletRequest.setAttribute("user", user);
 
                     // Tell user who they are (makes debugging easier)
-                    httpServletResponse.addHeader("actor", user.getUsername());
+                    httpServletResponse.addHeader("vous_etes", user.getUsername());
                 } else {
                     httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' does not exist?", username));
                     return;
