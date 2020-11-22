@@ -11,14 +11,12 @@ public interface LikeService {
 
     Like createLikeByUsernames(String actor, String username_b);
 
-    // TODO: A user can unlike someone.
     boolean deleteLikeByUsernames(String actor, String username_a, String username_b);
 
     List<Like> getLikesByUsername(String actor);
 
     List<Like> getLikesOfUsername(String actor);
 
-    // TODO: If a user likes someone, and that someone likes them, it's a match.
     List<Like> getMatchesOfUsername(String actor);
 
 }
