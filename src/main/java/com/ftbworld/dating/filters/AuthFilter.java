@@ -44,10 +44,8 @@ public class AuthFilter extends GenericFilterBean {
                 // Check if that user exists.
                 User user = userService.getUserByUsername(username);
                 if (user != null) {
-                    // Attach data to the request.
-                    httpServletRequest.setAttribute("username", username);
-
-                    // TODO: I wonder - since we can attach an object here, why not just attach the User?
+                    // Attach user data to the request.
+                    httpServletRequest.setAttribute("user", user);
                 } else {
                     httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' does not exist?", username));
                     return;

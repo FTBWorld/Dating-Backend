@@ -57,7 +57,7 @@ public class LikeRepositoryImpl implements LikeRepository {
 
     @Override
     public void deleteLikeByUsernames(String username_a, String username_b) {
-
+        // TODO.
     }
 
     private RowMapper<Like> likeRowMapper = ((rs, rowNum) -> {

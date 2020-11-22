@@ -5,7 +5,7 @@ public class User {
     private final String username;
     private final String password; // TODO: some sort of change password feature? Might take too long.
 
-    private String display_name; // TODO: a way to change these properties.
+    private String display_name;
     private String bio;
 
     public User(String username, String password, String display_name, String bio) {

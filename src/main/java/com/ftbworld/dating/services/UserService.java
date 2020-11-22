@@ -11,7 +11,7 @@ public interface UserService {
 
     User registerUser(String username, String password);
 
-    // TODO: Must be logged in.
+    // TODO: Must be logged in, do this on the REST side.
     User getUserByUsername(String username) throws DatingNotFoundException;
 
     // TODO: A user can update their own profile.
