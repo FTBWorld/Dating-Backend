@@ -1,6 +1,7 @@
 package com.ftbworld.dating.resources;
 
 import com.ftbworld.dating.domain.Like;
+import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.services.LikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,22 +22,22 @@ public class LikeResource {
 
     @PutMapping("/create")
     public ResponseEntity<Map<String, Object>> createLike(HttpServletRequest request, @RequestBody Map<String, Object> body) {
-        String actor = (String) request.getAttribute("username");
+        User user = (User) request.getAttribute("user");
         String username = (String) body.get("username");
 
-        Like like = likeService.createLikeByUsernames(actor, username);
+        Like like = likeService.createLikeByUsernames(user.getUsername(), username);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", String.format("Like between '%s' and '%s' created!", actor, username));
+        response.put("message", String.format("Like between '%s' and '%s' created!", user.getUsername(), username));
         response.put("like", like);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/my_likes")
     public ResponseEntity<Map<String, Object>> getMyLikes(HttpServletRequest request) {
-        String actor = (String) request.getAttribute("username");
+        User user = (User) request.getAttribute("user");
 
-        List<Like> likes = likeService.getLikesByUsername(actor);
+        List<Like> likes = likeService.getLikesByUsername(user.getUsername());
 
         Map<String, Object> response = new HashMap<>();
         response.put("likes", likes);
@@ -45,9 +46,9 @@ public class LikeResource {
 
     @GetMapping("/likes_me")
     public ResponseEntity<Map<String, Object>> getLikesOfMe(HttpServletRequest request) {
-        String actor = (String) request.getAttribute("username");
+        User user = (User) request.getAttribute("user");
 
-        List<Like> likes = likeService.getLikesOfUsername(actor);
+        List<Like> likes = likeService.getLikesOfUsername(user.getUsername());
 
         Map<String, Object> response = new HashMap<>();
         response.put("likes", likes);
@@ -56,9 +57,9 @@ public class LikeResource {
 
     @GetMapping("/matches")
     public ResponseEntity<Map<String, Object>> getMyMatches(HttpServletRequest request) {
-        String actor = (String) request.getAttribute("username");
+        User user = (User) request.getAttribute("user");
 
-        List<Like> likes = likeService.getMatchesOfUsername(actor);
+        List<Like> likes = likeService.getMatchesOfUsername(user.getUsername());
 
         Map<String, Object> response = new HashMap<>();
         response.put("likes", likes);
