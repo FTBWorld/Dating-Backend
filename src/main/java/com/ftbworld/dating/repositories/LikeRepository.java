@@ -7,21 +7,16 @@ import java.util.List;
 // The repository just does database actions. The service is responsible for handling permissions.
 public interface LikeRepository {
 
-    // TODO: renaming in User repository, service, resource...
+    Like createLikeByUsernames(String username_a, String username_b);
 
-    // TODO: Think about exceptions here.
+    void deleteLikeByUsernames(String username_a, String username_b);
 
-    // TODO: Don't let a user like themselves.
-    Like createLike(int user_id, int liked_user);
+    List<Like> getLikesByUsername(String username_a);
 
-    void deleteLike(int like_id);
+    List<Like> getLikesOfUsername(String username_b);
 
-    List<Like> getLikesByUser(int user_id);
+    List<Like> getMatchesOfUsername(String username);
 
-    List<Like> getLikesOfUser(int user_id);
-
-    List<Like> getMatchesOfUser(int user_id);
-
-    Like getLikeByID(int like_id);
+    Like getLikeByUsernames(String username_a, String username_b);
 
 }

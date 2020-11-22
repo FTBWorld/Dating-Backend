@@ -29,8 +29,7 @@ public class UserResource {
                 .signWith(SignatureAlgorithm.HS256, Constants.JWT_SECRET) // Use HS since it's a symmetric algorithm.
                 .setIssuedAt(new Date()) // Read about HS vs ES: https://stackoverflow.com/a/39239395/11606132
                 // No expiration date.
-                .claim("user_id", user.getUser_id()) // Only attach data that does not change.
-                .claim("username", user.getUsername()) // Remember: client can read this data!
+                .claim("username", user.getUsername()) // Only attach data that doesn't change.
                 .compact();
 
         return token;

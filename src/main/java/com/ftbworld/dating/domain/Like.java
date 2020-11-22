@@ -2,26 +2,19 @@ package com.ftbworld.dating.domain;
 
 public class Like {
 
-    private final int like_id;
+    private final String username_a;
+    private final String username_b;
 
-    private final int user_id;
-    private final int liked_user;
-
-    public Like(int like_id, int user_id, int liked_user) {
-        this.like_id = like_id;
-        this.user_id = user_id;
-        this.liked_user = liked_user;
+    public String getUsername_a() {
+        return username_a;
     }
 
-    public int getLike_id() {
-        return like_id;
+    public String getUsername_b() {
+        return username_b;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public int getLiked_user() {
-        return liked_user;
+    public Like(String username_a, String username_b) {
+        this.username_a = username_a;
+        this.username_b = username_b;
     }
 }

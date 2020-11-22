@@ -25,11 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
     JdbcTemplate jdbcTemplate;
 
     private static final String SQL_REGISTER_USER =
-            "insert into dating_users(user_id, username, password, display_name, bio) values(nextval('dating_users_seq'), ?, ?, ?, ?)";
+            "insert into dating_users(username, password, display_name, bio) values(?, ?, ?, ?)";
     private static final String SQL_GET_USER_BY_USERNAME =
-            "select user_id, username, password, display_name, bio from dating_users where username = ?";
-    private static final String SQL_GET_USER_BY_ID =
-            "select user_id, username, password, display_name, bio from dating_users where user_id = ?";
+            "select * from dating_users where username = ?";
 
     @Override
     public User registerUser(String username, String password) {
@@ -47,15 +45,14 @@ public class UserRepositoryImpl implements UserRepository {
                 return preparedStatement;
             }, keyHolder);
 
-            return getUserByID((int) keyHolder.getKeys().get("user_id"));
+            return getUserByUsername((String) keyHolder.getKeys().get("username"));
         } catch (DuplicateKeyException e) {
             throw new DatingBadRequestException("That username is already taken.");
         }
     }
 
     private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
-        return new User(rs.getInt("user_id"),
-                rs.getString("username"),
+        return new User(rs.getString("username"),
                 rs.getString("password"),
                 rs.getString("display_name"),
                 rs.getString("bio"));
@@ -84,16 +81,6 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (EmptyResultDataAccessException e) {
             // User does not exist. Give generic error message to attacker.
             throw new DatingAuthException("Wrong username or password.");
-        }
-    }
-
-    @Override
-    public User getUserByID(int user_id) {
-        try {
-            User user = jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new Object[]{user_id}, userRowMapper);
-            return user;
-        } catch (EmptyResultDataAccessException e) {
-            throw new DatingNotFoundException(String.format("User (%s) not found.", user_id));
         }
     }
 }

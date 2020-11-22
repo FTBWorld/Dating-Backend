@@ -21,22 +21,22 @@ public class LikeResource {
 
     @PutMapping("/create")
     public ResponseEntity<Map<String, Object>> createLike(HttpServletRequest request, @RequestBody Map<String, Object> body) {
-        int user_id = (int) request.getAttribute("user_id");
-        int liked_user = (int) body.get("liked_user");
+        String actor = (String) request.getAttribute("username");
+        String username = (String) body.get("username");
 
-        Like like = likeService.createLike(user_id, liked_user);
+        Like like = likeService.createLikeByUsernames(actor, username);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("message", String.format("Like between (%s) and (%s) created!", user_id, liked_user));
+        response.put("message", String.format("Like between '%s' and '%s' created!", actor, username));
         response.put("like", like);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/my_likes")
     public ResponseEntity<Map<String, Object>> getMyLikes(HttpServletRequest request) {
-        int user_id = (int) request.getAttribute("user_id");
+        String actor = (String) request.getAttribute("username");
 
-        List<Like> likes = likeService.getLikesByUser(user_id);
+        List<Like> likes = likeService.getLikesByUsername(actor);
 
         Map<String, Object> response = new HashMap<>();
         response.put("likes", likes);
@@ -45,9 +45,20 @@ public class LikeResource {
 
     @GetMapping("/likes_me")
     public ResponseEntity<Map<String, Object>> getLikesOfMe(HttpServletRequest request) {
-        int user_id = (int) request.getAttribute("user_id");
+        String actor = (String) request.getAttribute("username");
 
-        List<Like> likes = likeService.getLikesOfUser(user_id);
+        List<Like> likes = likeService.getLikesOfUsername(actor);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("likes", likes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/matches")
+    public ResponseEntity<Map<String, Object>> getMyMatches(HttpServletRequest request) {
+        String actor = (String) request.getAttribute("username");
+
+        List<Like> likes = likeService.getMatchesOfUsername(actor);
 
         Map<String, Object> response = new HashMap<>();
         response.put("likes", likes);

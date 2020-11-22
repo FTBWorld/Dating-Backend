@@ -11,6 +11,4 @@ public interface UserRepository {
 
     User getUserByUsernameAndPassword(String username, String password);
 
-    User getUserByID(int user_id);
-
 }

@@ -9,8 +9,7 @@ alter default privileges grant all on tables to dating;
 alter default privileges grant all on sequences to dating;
 
 create table dating_users(
-    user_id integer primary key not null,
-    username varchar(20) unique not null,
+    username varchar(20) primary key not null,
     password text not null,
 
     display_name varchar(100) not null,
@@ -18,18 +17,13 @@ create table dating_users(
 );
 
 create table dating_likes(
-    like_id integer primary key not null,
-
-    user_id integer not null,
-    liked_user integer not null,
-    foreign key(user_id)
-        references dating_users(user_id)
+    username_a varchar(20) not null,
+    username_b varchar(20) not null,
+    foreign key(username_a)
+        references dating_users(username)
         on delete cascade,
-    foreign key(liked_user)
-        references dating_users(user_id)
+    foreign key(username_b)
+        references dating_users(username)
         on delete cascade,
-    unique (user_id, liked_user)
+    primary key (username_a, username_b)
 );
-
-create sequence dating_users_seq increment 1 start 1;
-create sequence dating_likes_seq increment 1 start 1;

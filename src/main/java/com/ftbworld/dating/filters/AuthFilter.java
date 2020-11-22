@@ -2,7 +2,7 @@ package com.ftbworld.dating.filters;
 
 import com.ftbworld.dating.Constants;
 import com.ftbworld.dating.domain.User;
-import com.ftbworld.dating.repositories.UserRepository;
+import com.ftbworld.dating.services.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,7 @@ import java.io.IOException;
 public class AuthFilter extends GenericFilterBean {
 
     @Autowired
-    UserRepository userRepository;
-    // TODO: should we use the repository here directly? Or should we communicate through the service?
+    UserService userService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -40,19 +39,17 @@ public class AuthFilter extends GenericFilterBean {
                 Claims claims = Jwts.parser().setSigningKey(Constants.JWT_SECRET)
                         .parseClaimsJws(token)
                         .getBody();
-                int user_id = Integer.parseInt(claims.get("user_id").toString());
                 String username = claims.get("username").toString();
 
                 // Check if that user exists.
-                User user = userRepository.getUserByID(user_id);
+                User user = userService.getUserByUsername(username);
                 if (user != null) {
                     // Attach data to the request.
-                    httpServletRequest.setAttribute("user_id", user_id);
                     httpServletRequest.setAttribute("username", username);
 
                     // TODO: I wonder - since we can attach an object here, why not just attach the User?
                 } else {
-                    httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' (%s) does not exist?", username, user_id));
+                    httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' does not exist?", username));
                     return;
                 }
             } catch (Exception e) {

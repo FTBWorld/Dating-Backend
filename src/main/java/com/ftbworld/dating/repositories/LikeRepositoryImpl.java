@@ -23,74 +23,74 @@ public class LikeRepositoryImpl implements LikeRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private static final String SQL_CREATE_LIKE =
-            "insert into dating_likes(like_id, user_id, liked_user) values(nextval('dating_likes_seq'), ?, ?)";
-
-    private static final String SQL_GET_LIKE_BY_ID =
-            "select like_id, user_id, liked_user from dating_likes where like_id = ?";
-
-    private static final String SQL_GET_LIKES_BY_USER =
-            "select like_id, user_id, liked_user from dating_likes where user_id = ?";
-
-    private static final String SQL_GET_LIKES_OF_USER =
-            "select like_id, user_id, liked_user from dating_likes where liked_user = ?";
+    private static final String SQL_CREATE_LIKE_BY_USERNAMES =
+            "insert into dating_likes(username_a, username_b) values(?, ?)";
+    private static final String SQL_GET_LIKE_BY_USERNAMES =
+            "select * from dating_likes where username_a = ? and username_b = ?";
+    private static final String SQL_GET_LIKES_BY_USERNAME =
+            "select * from dating_likes where username_a = ?";
+    private static final String SQL_GET_LIKES_OF_USERNAME =
+            "select * from dating_likes where username_b = ?";
+    // TODO: this query is wrong and does not work. 
+    private static final String SQL_GET_MATCHES_OF_USER =
+            "...";
 
     @Override
-    public Like createLike(int user_id, int liked_user) {
+    public Like createLikeByUsernames(String username_a, String username_b) {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_LIKE, Statement.RETURN_GENERATED_KEYS);
-                preparedStatement.setInt(1, user_id);
-                preparedStatement.setInt(2, liked_user);
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_LIKE_BY_USERNAMES, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, username_a);
+                preparedStatement.setString(2, username_b);
                 return preparedStatement;
             }, keyHolder);
 
-            return getLikeByID((int) keyHolder.getKeys().get("like_id"));
+            return getLikeByUsernames(username_a, username_b);
         } catch (DuplicateKeyException e) {
-            throw new DatingBadRequestException(String.format("A Like between users (%s) and (%s) already exists.", user_id, liked_user));
+            throw new DatingBadRequestException(String.format("A Like between users '%s' and '%s' already exists.", username_a, username_b));
         } catch (DataIntegrityViolationException e) {
-            throw new DatingBadRequestException(String.format("Can't like user (%s) - not found.", liked_user));
+            e.printStackTrace();
+            throw new DatingBadRequestException(String.format("Can't like user '%s' - not found.", username_b));
         }
     }
 
+    @Override
+    public void deleteLikeByUsernames(String username_a, String username_b) {
+
+    }
+
     private RowMapper<Like> likeRowMapper = ((rs, rowNum) -> {
-        Like like = new Like(rs.getInt("like_id"),
-                rs.getInt("user_id"),
-                rs.getInt("liked_user"));
+        Like like = new Like(rs.getString("username_a"),
+                rs.getString("username_b"));
         return like;
     });
 
     @Override
-    public void deleteLike(int like_id) {
-
-    }
-
-    @Override
-    public List<Like> getLikesByUser(int user_id) {
-        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_BY_USER, new Object[]{user_id}, likeRowMapper);
+    public List<Like> getLikesByUsername(String username_a) {
+        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_BY_USERNAME, new Object[]{username_a}, likeRowMapper);
         return likes;
     }
 
     @Override
-    public List<Like> getLikesOfUser(int user_id) {
-        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_OF_USER, new Object[]{user_id}, likeRowMapper);
+    public List<Like> getLikesOfUsername(String username_b) {
+        List<Like> likes = jdbcTemplate.query(SQL_GET_LIKES_OF_USERNAME, new Object[]{username_b}, likeRowMapper);
         return likes;
     }
 
     @Override
-    public List<Like> getMatchesOfUser(int user_id) {
-        return null;
+    public List<Like> getMatchesOfUsername(String username) {
+        List<Like> likes = jdbcTemplate.query(SQL_GET_MATCHES_OF_USER, new Object[]{username}, likeRowMapper);
+        return likes;
     }
 
-    // TODO: you shouldn't be able to find a like with an ID if it doesn't involve you!
     @Override
-    public Like getLikeByID(int like_id) {
+    public Like getLikeByUsernames(String username_a, String username_b) {
         try {
-            Like like = jdbcTemplate.queryForObject(SQL_GET_LIKE_BY_ID, new Object[]{like_id}, likeRowMapper);
+            Like like = jdbcTemplate.queryForObject(SQL_GET_LIKE_BY_USERNAMES, new Object[]{username_a, username_b}, likeRowMapper);
             return like;
         } catch (EmptyResultDataAccessException e) {
-            throw new DatingNotFoundException(String.format("Like (%s) not found.", like_id));
+            throw new DatingNotFoundException(String.format("Like between '%s' and '%s' not found.", username_a, username_b));
         }
     }
 }
