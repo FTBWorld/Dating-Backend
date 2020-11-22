@@ -33,9 +33,12 @@ public class LikeRepositoryImpl implements LikeRepository {
             "select * from dating_likes where username_b = ?";
     private static final String SQL_DELETE_LIKES_BY_USERNAME =
             "delete from dating_likes where username_a = ? and username_b = ?";
-    // TODO: this query is wrong and does not work. 
     private static final String SQL_GET_MATCHES_OF_USER =
-            "...";
+            "select a_likes_b.username_a, a_likes_b.username_b from dating_likes " +
+            "a_likes_b inner join dating_likes b_likes_a on " +
+                "a_likes_b.username_a = b_likes_a.username_b and " +
+                "a_likes_b.username_b = b_likes_a.username_a " +
+            "where a_likes_b.username_a = ?";
 
     @Override
     public Like createLikeByUsernames(String username_a, String username_b) {
