@@ -9,7 +9,7 @@ public interface LikeRepository {
 
     Like createLikeByUsernames(String username_a, String username_b);
 
-    void deleteLikeByUsernames(String username_a, String username_b);
+    boolean deleteLikeByUsernames(String username_a, String username_b);
 
     List<Like> getLikesByUsername(String username_a);
 

@@ -12,7 +12,7 @@ public interface LikeService {
     Like createLikeByUsernames(String actor, String username_b);
 
     // TODO: A user can unlike someone.
-    void deleteLikeByUsernames(String actor, String username_a, String username_b);
+    boolean deleteLikeByUsernames(String actor, String username_a, String username_b);
 
     List<Like> getLikesByUsername(String actor);
 

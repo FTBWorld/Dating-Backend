@@ -33,6 +33,23 @@ public class LikeResource {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/unlike")
+    public ResponseEntity<Map<String, Object>> deleteLike(HttpServletRequest request, @RequestBody Map<String, Object> body) {
+        User user = (User) request.getAttribute("user");
+        String username = (String) body.get("username");
+
+        // Since we're using PUT, not POST, return 200 even if the like doesn't exist, since it should have the same effect.
+        boolean actuallyDeleted = likeService.deleteLikeByUsernames(user.getUsername(), user.getUsername(), username);
+
+        Map<String, Object> response = new HashMap<>();
+        if (actuallyDeleted) {
+            response.put("message", String.format("Like between '%s' and '%s' deleted.", user.getUsername(), username));
+        } else {
+            response.put("message", String.format("Like between '%s' and '%s' does not exist.", user.getUsername(), username));
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/my_likes")
     public ResponseEntity<Map<String, Object>> getMyLikes(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");

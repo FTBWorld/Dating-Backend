@@ -31,6 +31,8 @@ public class LikeRepositoryImpl implements LikeRepository {
             "select * from dating_likes where username_a = ?";
     private static final String SQL_GET_LIKES_OF_USERNAME =
             "select * from dating_likes where username_b = ?";
+    private static final String SQL_DELETE_LIKES_BY_USERNAME =
+            "delete from dating_likes where username_a = ? and username_b = ?";
     // TODO: this query is wrong and does not work. 
     private static final String SQL_GET_MATCHES_OF_USER =
             "...";
@@ -56,8 +58,9 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public void deleteLikeByUsernames(String username_a, String username_b) {
-        // TODO.
+    public boolean deleteLikeByUsernames(String username_a, String username_b) {
+        int result = jdbcTemplate.update(SQL_DELETE_LIKES_BY_USERNAME, username_a, username_b);
+        return result == 1; // True if a deletion actually happened.
     }
 
     private RowMapper<Like> likeRowMapper = ((rs, rowNum) -> {

@@ -29,12 +29,12 @@ public class LikeServiceImpl implements LikeService{
     }
 
     @Override
-    public void deleteLikeByUsernames(String actor, String username_a, String username_b) {
+    public boolean deleteLikeByUsernames(String actor, String username_a, String username_b) {
         if (!actor.equals(username_a) && !actor.equals(username_b)) {
             throw new DatingPermissionsException("Cannot delete a like not related to you.");
         }
 
-        likeRepository.deleteLikeByUsernames(username_a, username_b);
+        return likeRepository.deleteLikeByUsernames(username_a, username_b);
     }
 
     @Override
