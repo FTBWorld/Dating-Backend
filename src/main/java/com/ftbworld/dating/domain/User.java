@@ -22,7 +22,7 @@ public class User {
     private String username;
     private String password; // TODO: some sort of change password feature? Might take too long.
 
-    private String display_name;
+    private String displayName;
     private String bio;
 
     @CreatedDate
@@ -55,12 +55,12 @@ public class User {
         this.password = password;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getBio() {

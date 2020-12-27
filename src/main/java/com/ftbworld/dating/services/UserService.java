@@ -9,10 +9,10 @@ public interface UserService {
 
     User login(String username, String password);
 
-    User registerUser(String username, String password);
+    void registerUser(String username, String password);
 
     User getUserByUsername(String username);
 
-    boolean updateUser(User user);
+    void updateUser(String id, User user);
 
 }

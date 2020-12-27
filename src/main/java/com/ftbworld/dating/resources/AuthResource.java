@@ -54,7 +54,13 @@ public class AuthResource {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
-        User user = userService.registerUser(username, password);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setDisplayName(username);
+        user.setBio("A new user...");
+        userService.registerUser(username, password);
+
         String token = generateJWTForUser(user);
 
         Map<String, Object> response = new HashMap<>();

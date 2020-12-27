@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository  {
 
-    User registerUser(String username, String password);
+    void register(User user);
 
-    User getUserByUsername(@Param("username") String username);
+    User getUserByUsername(String username);
 
-    User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+    User login(String username, String password);
 
-    boolean updateUser(User user);
+    void updateUser(String id, User user);
 
 }

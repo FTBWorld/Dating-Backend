@@ -16,20 +16,22 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String username, String password) {
-        User user = userRepository.getUserByUsernameAndPassword(username, password);
+        User user = userRepository.login(username, password);
         return user;
     }
 
     @Override
-    public User registerUser(String username, String password) {
+    public void registerUser(String username, String password) {
         if (password.length() < 10) {
             throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
         // Store passwords securely in the service, so it works in tests and REST.
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
-        User user = userRepository.registerUser(username, hashedPassword);
-        return user;
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        userRepository.register(user);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUser(User user) {
-        return userRepository.updateUser(user);
+    public void updateUser(String id, User user) {
+        userRepository.updateUser(id, user);
     }
 }
