@@ -30,12 +30,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @PostConstruct
-    private void initIndexes() {
-        // Usernames must be unique
-        //mongoTemplate.indexOps("users").ensureIndex(new Index().on("username", Sort.Direction.ASC).unique());
-    }
-
     @Override
     public void register(User user) {
         mongoTemplate.save(user);
