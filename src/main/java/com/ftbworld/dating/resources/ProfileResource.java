@@ -22,10 +22,10 @@ public class ProfileResource {
     public ResponseEntity<Map<String, Object>> getProfileByUsername(HttpServletRequest request, @PathVariable String username) {
         User user = (User) request.getAttribute("user");
 
-        User profile = userService.getUserByUsername(username).toProfile();
+        //User profile = userService.getUserByUsername(username).toProfile();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("profile", profile);
+        //response.put("profile", profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -38,7 +38,7 @@ public class ProfileResource {
         user.setDisplay_name(display_name);
         user.setBio(bio);
         boolean updated = userService.updateUser(user); // Seems to always be true, because of SQL.
-        User profile = userService.getUserByUsername(user.getUsername()).toProfile();
+        //User profile = userService.getUserByUsername(user.getUsername()).toProfile();
 
         Map<String, Object> response = new HashMap<>();
         if (updated) {
@@ -46,7 +46,7 @@ public class ProfileResource {
         } else {
             response.put("message", String.format("Profile for '%s' NOT updated.", user.getUsername()));
         }
-        response.put("profile", profile);
+        //response.put("profile", profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

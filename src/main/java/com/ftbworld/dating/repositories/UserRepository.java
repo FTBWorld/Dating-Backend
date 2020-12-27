@@ -2,14 +2,16 @@ package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingAuthException;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.query.Param;
 
-public interface UserRepository {
+public interface UserRepository  {
 
     User registerUser(String username, String password);
 
-    User getUserByUsername(String username);
+    User getUserByUsername(@Param("username") String username);
 
-    User getUserByUsernameAndPassword(String username, String password);
+    User getUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     boolean updateUser(User user);
 
