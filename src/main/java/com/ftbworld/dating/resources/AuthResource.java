@@ -41,12 +41,18 @@ public class AuthResource {
         String password = (String) body.get("password");
 
         User user = userService.login(username, password);
-        String token = generateJWTForUser(user);
+        if (user != null) {
+            String token = generateJWTForUser(user);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Welcome back, " + user.getUsername() + ".");
-        response.put("token", token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Welcome back, " + user.getUsername() + ".");
+            response.put("token", token);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Wrong username or password");
+            return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+        }
     }
 
     @PostMapping("/register")
@@ -54,12 +60,7 @@ public class AuthResource {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setDisplayName(username);
-        user.setBio("A new user...");
-        userService.registerUser(username, password);
+        User user = userService.registerUser(username, password);
 
         String token = generateJWTForUser(user);
 

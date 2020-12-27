@@ -1,28 +1,14 @@
 package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.User;
-import com.ftbworld.dating.exceptions.DatingAuthException;
-import com.ftbworld.dating.exceptions.DatingBadRequestException;
-import com.ftbworld.dating.exceptions.DatingDBException;
-import com.ftbworld.dating.exceptions.DatingNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.util.Date;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -31,8 +17,14 @@ public class UserRepositoryImpl implements UserRepository {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public void register(User user) {
+    public User register(String username, String password) {
+        Date date = new Date();
+        password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        User user = new User(username, password, username, "A new user...", date, date);
+
         mongoTemplate.save(user);
+
+        return user;
     }
 
     @Override
@@ -45,11 +37,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User login(String username, String password) {
-        return null;
+        User user = getUserByUsername(username);
+
+        boolean correctPassword = BCrypt.checkpw(password, user.getPassword());
+        if (correctPassword) {
+            return user;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void updateUser(String id, User user) {
+    public User updateUser(String id, User user) {
 
+        return user;
     }
 }

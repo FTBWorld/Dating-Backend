@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
@@ -16,22 +18,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String username, String password) {
-        User user = userRepository.login(username, password);
-        return user;
+        return userRepository.login(username, password);
     }
 
     @Override
-    public void registerUser(String username, String password) {
+    public User registerUser(String username, String password) {
         if (password.length() < 10) {
             throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
-        // Store passwords securely in the service, so it works in tests and REST.
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        userRepository.register(user);
+        User user = userRepository.register(username, password);
+        return user;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(String id, User user) {
-        userRepository.updateUser(id, user);
+    public User updateUser(String id, User user) {
+        return userRepository.updateUser(id, user);
     }
 }

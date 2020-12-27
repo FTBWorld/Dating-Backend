@@ -8,15 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-// TODO: created.
-// TODO: modified.
-// https://stackoverflow.com/a/9556527/11606132
-
 @Document(collection = "users")
 public class User {
-
-    @Id
-    private String id;
 
     @Indexed(unique = true)
     private String username;
@@ -31,12 +24,13 @@ public class User {
     @LastModifiedDate
     private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public User(String username, String password, String displayName, String bio, Date createdAt, Date updatedAt) {
+        this.username = username;
+        this.password = password;
+        this.displayName = displayName;
+        this.bio = bio;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getUsername() {
@@ -85,5 +79,17 @@ public class User {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", bio='" + bio + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }
