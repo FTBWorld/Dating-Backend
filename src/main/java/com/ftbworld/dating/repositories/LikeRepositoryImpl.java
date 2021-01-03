@@ -33,7 +33,7 @@ public class LikeRepositoryImpl implements LikeRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("userID").is(userID));
 
-        return mongoTemplate.findAll(Like.class);
+        return mongoTemplate.find(query, Like.class);
     }
 
     @Override
@@ -41,13 +41,28 @@ public class LikeRepositoryImpl implements LikeRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("likedUserID").is(likedUserID));
 
-        return mongoTemplate.findAll(Like.class);
+        return mongoTemplate.find(query, Like.class);
+    }
+
+    @Override
+    public List<Like> findMatchesOfUserByID(String id) {
+        // TODO: write this query
+
+        return null;
     }
 
     @Override
     public Like findLikeByID(String id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(id));
+
+        return mongoTemplate.findOne(query, Like.class);
+    }
+
+    @Override
+    public Like findLikeByUserIDs(String userID, String likedUserID) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userID").is(userID).and("likedUserID").is(likedUserID));
 
         return mongoTemplate.findOne(query, Like.class);
     }

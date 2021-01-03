@@ -61,6 +61,11 @@ public class UserAuthResource {
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
+        if (password.length() < 7) {
+            response.put("message", "Password must be 7 or more characters.");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
         User user = userService.registerUser(username, password);
         String token = generateJWTForUser(user);
 

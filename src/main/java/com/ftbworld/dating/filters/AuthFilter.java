@@ -52,7 +52,7 @@ public class AuthFilter extends GenericFilterBean {
                     httpServletRequest.setAttribute("user", user);
                 } else {
                     // If not, fail the request.
-                    httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' does not exist?", username));
+                    httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named %s does not exist?", username));
                     return;
                 }
             } catch (Exception e) {

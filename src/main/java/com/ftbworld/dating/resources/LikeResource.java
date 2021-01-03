@@ -25,35 +25,56 @@ public class LikeResource {
     @Autowired
     UserService userService;
 
-    @PutMapping("/")
-    public ResponseEntity<Map<String, Object>> createLike(HttpServletRequest request, @RequestBody Map<String, Object> body) {
+    @PutMapping(path = "/{username}")
+    public ResponseEntity<Map<String, Object>> createLike(HttpServletRequest request, @PathVariable String username) {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
-        String userLikedID = (String) body.get("userLikedID");
 
-        Like like = likeService.createLikeByUserIDs(user.getId().toHexString(), userLikedID);
+        // TODO: move this logic to the service, re-introduce exceptions. The resource should only process client stuff.
+        // User can't like themselves
+        User user2 = userService.findUserByUsername(username);
+        if (user.getId().equals(user2.getId())) {
+            response.put("message", "Can't like yourself");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
 
-        response.put("message", String.format("Like between '%s' and '%s' created!", user.getId().toHexString(), userLikedID));
+        // TODO: Can't create duplicate likes - why does this not work?
+        Like existing = likeService.findLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+        if (existing != null) {
+            response.put("message", String.format("Like between %s and %s already exists", user.getUsername(), user2.getUsername()));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        Like like = likeService.createLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+
+        response.put("message", String.format("Like between %s and %s created!", user.getUsername(), user2.getUsername()));
         response.put("object", like);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<Map<String, Object>> deleteLike(HttpServletRequest request, @RequestBody Map<String, Object> body) {
+    @DeleteMapping(path = "/{username}")
+    public ResponseEntity<Map<String, Object>> deleteLike(HttpServletRequest request, @PathVariable String username) {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
-        String username = (String) body.get("username");
 
-        // Since we're using PUT, not POST, return 200 even if the like doesn't exist, since it should have the same effect.
-        // TODO
-        boolean actuallyDeleted = true;
-
-        if (actuallyDeleted) {
-            response.put("message", String.format("Like between '%s' and '%s' deleted.", user.getUsername(), username));
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
+        // Get the like between the user and the person
+        User user2 = userService.findUserByUsername(username);
+        if (user2 == null) {
+            response.put("message", String.format("User %s not found", username));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+
+        // TODO: also does not work
+        Like common = likeService.findLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+        if (common == null) {
+            response.put("message", String.format("Like between %s and %s not found", user.getUsername(), user2.getUsername()));
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        boolean actuallyDeleted = likeService.deleteLikeByID(common.getId().toHexString());
+
+        response.put("message", String.format("Like between %s and %s deleted.", user.getUsername(), user2.getUsername()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/my_likes")
@@ -83,8 +104,7 @@ public class LikeResource {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
 
-        // TODO
-        List<Like> likes = null;
+        List<Like> likes = likeService.findMatchesOfUserByID(user.getId().toHexString());
 
         response.put("objects", likes);
         return new ResponseEntity<>(response, HttpStatus.OK);

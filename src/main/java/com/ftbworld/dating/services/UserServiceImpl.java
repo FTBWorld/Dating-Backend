@@ -16,11 +16,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User registerUser(String username, String password) {
-        if (password.length() < 10) {
-            // TODO: need a way to explain what went wrong. Re-introduce exceptions?
-            return null;
-        }
-
         return userRepository.registerUser(username, password);
     }
 

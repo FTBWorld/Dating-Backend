@@ -1,8 +1,5 @@
 package com.ftbworld.dating.domain;
 
-// TODO: created of a like.
-// TODO: the created of a match is the largest of the 2 likes.
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -43,5 +40,15 @@ public class Like {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Like{" +
+                "id=" + id +
+                ", userID=" + userID +
+                ", likedUserID=" + likedUserID +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

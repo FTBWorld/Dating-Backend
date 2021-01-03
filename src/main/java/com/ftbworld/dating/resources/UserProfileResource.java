@@ -30,6 +30,7 @@ public class UserProfileResource {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             // User DNE
+            response.put("message", String.format("User %s not found", username));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
