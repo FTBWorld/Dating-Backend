@@ -82,6 +82,7 @@ public class LikeResource {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
 
+        // TODO: test me
         List<Like> likes = likeService.findLikesByUserID(user.getId().toHexString());
 
         response.put("objects", likes);
@@ -93,6 +94,7 @@ public class LikeResource {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
 
+        // TODO: test me
         List<Like> likes = likeService.findLikesOfUserID(user.getId().toHexString());
 
         response.put("objects", likes);
@@ -104,6 +106,7 @@ public class LikeResource {
         Map<String, Object> response = new HashMap<>();
         User user = (User) request.getAttribute("user");
 
+        // TODO: test me after implementing the query
         List<Like> likes = likeService.findMatchesOfUserByID(user.getId().toHexString());
 
         response.put("objects", likes);
