@@ -19,7 +19,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User registerUser(String username, String password) {
-        Date date = new Date();
         password = BCrypt.hashpw(password, BCrypt.gensalt(10));
         User user = new User(username, password, username, "A new user...");
 

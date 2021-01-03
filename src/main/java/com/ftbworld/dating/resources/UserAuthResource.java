@@ -46,7 +46,7 @@ public class UserAuthResource {
         if (user != null) {
             String token = generateJWTForUser(user);
 
-            response.put("message", "Welcome back, " + user.getUsername() + ".");
+            response.put("message", String.format("Welcome back, %s! (%s)", user.getUsername(), user.getId()));
             response.put("token", token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -65,7 +65,7 @@ public class UserAuthResource {
         User user = userService.registerUser(username, password);
         String token = generateJWTForUser(user);
 
-        response.put("message", "Welcome, " + user.getUsername() + "!");
+        response.put("message", String.format("Welcome, %s! (%s)", user.getUsername(), user.getId()));
         response.put("token", token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

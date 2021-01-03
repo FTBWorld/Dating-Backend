@@ -2,7 +2,6 @@ package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.Like;
 import com.ftbworld.dating.exceptions.DatingBadRequestException;
-import com.ftbworld.dating.exceptions.DatingNotFoundException;
 import com.ftbworld.dating.exceptions.DatingPermissionsException;
 import com.ftbworld.dating.repositories.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,9 @@ public class LikeServiceImpl implements LikeService{
             throw new DatingBadRequestException("Can't like yourself.");
         }
 
-        Like like = likeRepository.createLikeByUsernames(actor, username_b);
-        return like;
+//        Like like = likeRepository.insertLikeByUserIDs(actor, username_b);
+//        return like;
+        return null;
     }
 
     @Override
@@ -34,24 +34,28 @@ public class LikeServiceImpl implements LikeService{
             throw new DatingPermissionsException("Cannot delete a like not related to you.");
         }
 
-        return likeRepository.deleteLikeByUsernames(username_a, username_b);
+        return true;
+        //return likeRepository.deleteLikeByUsernames(username_a, username_b);
     }
 
     @Override
     public List<Like> getLikesByUsername(String username_a) {
-        List<Like> likes = likeRepository.getLikesByUsername(username_a);
-        return likes;
+//        List<Like> likes = likeRepository.findLikesByUserID(username_a);
+//        return likes;
+        return null;
     }
 
     @Override
     public List<Like> getLikesOfUsername(String username_b) {
-        List<Like> likes = likeRepository.getLikesOfUsername(username_b);
-        return likes;
+//        List<Like> likes = likeRepository.findLikesOfUserID(username_b);
+//        return likes;
+        return null;
     }
 
     @Override
     public List<Like> getMatchesOfUsername(String actor) {
-        List<Like> likes = likeRepository.getMatchesOfUsername(actor);
-        return likes;
+//        List<Like> likes = likeRepository.findMatchesOfUserID(actor);
+//        return likes;
+        return null;
     }
 }
