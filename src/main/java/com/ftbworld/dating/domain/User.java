@@ -17,27 +17,26 @@ public class User {
     private final ObjectId id;
 
     @Indexed(unique = true)
-    private String username;
-    private String password; // TODO: some sort of change password feature? Might take too long.
+    private final String username;
+    private final String password; // TODO: some sort of change password feature? Might take too long.
 
-    private String displayName;
-    private String bio;
+    private final String displayName;
+    private final String bio;
 
     @CreatedDate
-    private Date createdAt;
+    private final Date createdAt;
 
     @LastModifiedDate
-    private Date updatedAt;
+    private final Date updatedAt;
 
-    public User(String username, String password, String displayName, String bio) {
-        this.id = new ObjectId();
+    public User(ObjectId id, String username, String password, String displayName, String bio, Date createdAt, Date updatedAt) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.displayName = displayName;
         this.bio = bio;
-        Date date = new Date();
-        this.createdAt = date;
-        this.updatedAt = date;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public ObjectId getId() {
@@ -48,32 +47,16 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public String getBio() {
         return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
     }
 
     public Date getCreatedAt() {

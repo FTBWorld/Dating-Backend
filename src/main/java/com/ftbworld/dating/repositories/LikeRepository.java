@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface LikeRepository {
 
-    Like insertLikeByUserIDs(ObjectId userID, ObjectId likedUserID);
+    Like createLikeByUserIDs(String userID, String likedUserID);
 
-    List<Like> findLikesByUserID(ObjectId userID);
+    List<Like> findLikesByUserID(String userID);
 
-    List<Like> findLikesOfUserID(ObjectId likedUserID);
+    List<Like> findLikesOfUserID(String likedUserID);
 
-    Like findLikeByID(ObjectId id);
+    Like findLikeByID(String id);
+
+    boolean deleteLikeByID(String id);
 
 }

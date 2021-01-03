@@ -22,12 +22,11 @@ public class Like {
     @CreatedDate
     private final Date createdAt;
 
-    public Like(ObjectId likerID, ObjectId likedUserID) {
-        this.id = new ObjectId();
-        this.userID = likerID;
+    public Like(ObjectId id, ObjectId userID, ObjectId likedUserID, Date createdAt) {
+        this.id = id;
+        this.userID = userID;
         this.likedUserID = likedUserID;
-        Date date = new Date();
-        this.createdAt = date;
+        this.createdAt = createdAt;
     }
 
     public ObjectId getId() {

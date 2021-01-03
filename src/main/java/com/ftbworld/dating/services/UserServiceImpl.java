@@ -1,9 +1,9 @@
 package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.User;
-import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +17,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public User registerUser(String username, String password) {
         if (password.length() < 10) {
-            throw new DatingBadRequestException("Password must be more than 10 characters.");
+            // TODO: need a way to explain what went wrong. Re-introduce exceptions?
+            return null;
         }
 
         return userRepository.registerUser(username, password);

@@ -1,6 +1,7 @@
 package com.ftbworld.dating.repositories;
 
 import com.ftbworld.dating.domain.User;
+import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,7 +21,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User registerUser(String username, String password) {
         password = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        User user = new User(username, password, username, "A new user...");
+        Date date = new Date();
+        User user = new User(new ObjectId(), username, password, username, "A new user...", date, date);
 
         mongoTemplate.save(user);
 

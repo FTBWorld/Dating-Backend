@@ -20,10 +20,7 @@ public class DatingApplication {
 	@Bean
 	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {
 		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
-
 		registrationBean.setFilter(authFilter);
-
-		// Filers will be applied to these URLs.
 		registrationBean.addUrlPatterns("/api/dating/*");
 
 		return registrationBean;

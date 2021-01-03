@@ -1,22 +1,20 @@
 package com.ftbworld.dating.services;
 
 import com.ftbworld.dating.domain.Like;
-import com.ftbworld.dating.exceptions.DatingBadRequestException;
-import com.ftbworld.dating.exceptions.DatingNotFoundException;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
-// The service is responsible for permission handling. Argument 1 should be the user_id of who is performing the action.
 public interface LikeService {
 
-    Like createLikeByUsernames(String actor, String username_b);
+    Like createLikeByUserIDs(String userID, String likedUserID);
 
-    boolean deleteLikeByUsernames(String actor, String username_a, String username_b);
+    List<Like> findLikesByUserID(String userID);
 
-    List<Like> getLikesByUsername(String actor);
+    List<Like> findLikesOfUserID(String likedUserID);
 
-    List<Like> getLikesOfUsername(String actor);
+    Like findLikeByID(String id);
 
-    List<Like> getMatchesOfUsername(String actor);
+    boolean deleteLikeByID(String id);
 
 }

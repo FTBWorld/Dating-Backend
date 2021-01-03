@@ -24,8 +24,7 @@ public class UserProfileResource {
 
         User user = userService.findUserByUsername(username);
         if (user != null) {
-            // User exists - censor sensitive profile information
-            user.setPassword("<censored>");
+            // User exists - TODO: censor sensitive profile information e.g. password
 
             response.put("object", user);
             return new ResponseEntity<>(response, HttpStatus.OK);

@@ -29,6 +29,7 @@ public class UserAuthResource {
                 .signWith(SignatureAlgorithm.HS256, Constants.JWT_SECRET) // Use HS since it's a symmetric algorithm.
                 .setIssuedAt(new Date()) // Read about HS vs ES: https://stackoverflow.com/a/39239395/11606132
                 // No expiration date.
+                .claim("id", user.getId())
                 .claim("username", user.getUsername()) // Only attach data that doesn't change.
                 .compact();
 
@@ -38,7 +39,6 @@ public class UserAuthResource {
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> body) {
         Map<String, Object> response = new HashMap<>();
-
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
@@ -58,7 +58,6 @@ public class UserAuthResource {
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, Object> body) {
         Map<String, Object> response = new HashMap<>();
-
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
