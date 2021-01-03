@@ -24,13 +24,14 @@ public class User {
     @LastModifiedDate
     private Date updatedAt;
 
-    public User(String username, String password, String displayName, String bio, Date createdAt, Date updatedAt) {
+    public User(String username, String password, String displayName, String bio) {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
         this.bio = bio;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        Date date = new Date();
+        this.createdAt = date;
+        this.updatedAt = date;
     }
 
     public String getUsername() {

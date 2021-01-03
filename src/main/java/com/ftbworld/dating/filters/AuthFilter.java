@@ -42,7 +42,7 @@ public class AuthFilter extends GenericFilterBean {
                 String username = claims.get("username").toString();
 
                 // Check if that user exists.
-                User user = userService.getUserByUsername(username);
+                User user = userService.findUserByUsername(username);
                 if (user != null) {
                     // Attach user data to the request.
                     httpServletRequest.setAttribute("user", user);

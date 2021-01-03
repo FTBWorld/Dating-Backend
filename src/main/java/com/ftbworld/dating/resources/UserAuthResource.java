@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthResource {
+public class UserAuthResource {
 
     @Autowired
     UserService userService;
@@ -37,19 +37,19 @@ public class AuthResource {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, Object> body) {
+        Map<String, Object> response = new HashMap<>();
+
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
-        User user = userService.login(username, password);
+        User user = userService.findUserByUsernameAndPassword(username, password);
         if (user != null) {
             String token = generateJWTForUser(user);
 
-            Map<String, Object> response = new HashMap<>();
             response.put("message", "Welcome back, " + user.getUsername() + ".");
             response.put("token", token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            Map<String, Object> response = new HashMap<>();
             response.put("message", "Wrong username or password");
             return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         }
@@ -57,14 +57,14 @@ public class AuthResource {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, Object> body) {
+        Map<String, Object> response = new HashMap<>();
+
         String username = (String) body.get("username");
         String password = (String) body.get("password");
 
         User user = userService.registerUser(username, password);
-
         String token = generateJWTForUser(user);
 
-        Map<String, Object> response = new HashMap<>();
         response.put("message", "Welcome, " + user.getUsername() + "!");
         response.put("token", token);
         return new ResponseEntity<>(response, HttpStatus.OK);

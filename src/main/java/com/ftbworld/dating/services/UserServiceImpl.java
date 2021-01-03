@@ -3,23 +3,16 @@ package com.ftbworld.dating.services;
 import com.ftbworld.dating.domain.User;
 import com.ftbworld.dating.exceptions.DatingBadRequestException;
 import com.ftbworld.dating.repositories.UserRepository;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
+
     @Autowired
     UserRepository userRepository;
-
-    @Override
-    public User login(String username, String password) {
-        return userRepository.login(username, password);
-    }
 
     @Override
     public User registerUser(String username, String password) {
@@ -27,18 +20,26 @@ public class UserServiceImpl implements UserService{
             throw new DatingBadRequestException("Password must be more than 10 characters.");
         }
 
-        User user = userRepository.register(username, password);
-        return user;
+        return userRepository.registerUser(username, password);
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        User user = userRepository.getUserByUsername(username);
-        return user;
+    public User findUserByID(String id) {
+        return userRepository.findUserByID(id);
     }
 
     @Override
-    public User updateUser(String id, User user) {
-        return userRepository.updateUser(id, user);
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    @Override
+    public User findUserByUsernameAndPassword(String username, String password) {
+        return userRepository.findUserByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    public User updateUserByID(String id, User user) {
+        return userRepository.updateUserByID(id, user);
     }
 }

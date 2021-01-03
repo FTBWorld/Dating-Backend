@@ -1,9 +1,12 @@
 package com.ftbworld.dating.domain;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.Instant;
 
 // TODO: SQL.
 // TODO: chat with sockets.
+@Document(collection = "chat_messages")
 public class ChatMessage {
 
     private final String senderUsername;

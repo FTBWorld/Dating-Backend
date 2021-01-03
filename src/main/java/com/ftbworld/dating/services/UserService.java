@@ -4,12 +4,14 @@ import com.ftbworld.dating.domain.User;
 
 public interface UserService {
 
-    User login(String username, String password);
-
     User registerUser(String username, String password);
 
-    User getUserByUsername(String username);
+    User findUserByID(String id);
 
-    User updateUser(String id, User user);
+    User findUserByUsername(String username);
+
+    User findUserByUsernameAndPassword(String username, String password);
+
+    User updateUserByID(String id, User user);
 
 }

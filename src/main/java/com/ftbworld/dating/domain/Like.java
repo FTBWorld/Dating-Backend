@@ -2,6 +2,10 @@ package com.ftbworld.dating.domain;
 
 // TODO: created of a like.
 // TODO: the created of a match is the largest of the 2 likes.
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "likes")
 public class Like {
 
     private final String username_a;
