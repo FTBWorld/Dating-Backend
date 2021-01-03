@@ -29,6 +29,10 @@ public class AuthFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
+        // Tokens should be passed with such a header:
+        // Authorization: Bearer <token>
+        // "Authorization" is the key, "Bearer <token>" is the value.
+        // NOTE THE SINGLE SPACE BETWEEN "Bearer" and the token!
         String tokenHeader = httpServletRequest.getHeader("Authorization");
         if (tokenHeader != null) {
             try {
@@ -44,12 +48,10 @@ public class AuthFilter extends GenericFilterBean {
                 // Check if that user exists.
                 User user = userService.findUserByUsername(username);
                 if (user != null) {
-                    // Attach user data to the request.
+                    // If so, attach user data to the request.
                     httpServletRequest.setAttribute("user", user);
-
-                    // Tell user who they are (makes debugging easier)
-                    httpServletResponse.addHeader("vous_etes", user.getUsername());
                 } else {
+                    // If not, fail the request.
                     httpServletResponse.sendError(HttpStatus.NOT_FOUND.value(), String.format("A user named '%s' does not exist?", username));
                     return;
                 }

@@ -23,9 +23,15 @@ public class UserProfileResource {
         Map<String, Object> response = new HashMap<>();
 
         User user = userService.findUserByUsername(username);
-        user.setPassword("<censored>");
+        if (user != null) {
+            // User exists - censor sensitive profile information
+            user.setPassword("<censored>");
 
-        response.put("object", user);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            response.put("object", user);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            // User DNE
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
     }
 }
