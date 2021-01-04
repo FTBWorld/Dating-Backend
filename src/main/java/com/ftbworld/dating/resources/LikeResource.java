@@ -39,13 +39,13 @@ public class LikeResource {
         }
 
         // TODO: Can't create duplicate likes - why does this not work?
-        Like existing = likeService.findLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+        Like existing = likeService.findLikeByUserIDs(user.getId(), user2.getId());
         if (existing != null) {
             response.put("message", String.format("Like between %s and %s already exists", user.getUsername(), user2.getUsername()));
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        Like like = likeService.createLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+        Like like = likeService.createLikeByUserIDs(user.getId(), user2.getId());
 
         response.put("message", String.format("Like between %s and %s created!", user.getUsername(), user2.getUsername()));
         response.put("object", like);
@@ -65,13 +65,13 @@ public class LikeResource {
         }
 
         // TODO: also does not work
-        Like common = likeService.findLikeByUserIDs(user.getId().toHexString(), user2.getId().toHexString());
+        Like common = likeService.findLikeByUserIDs(user.getId(), user2.getId());
         if (common == null) {
             response.put("message", String.format("Like between %s and %s not found", user.getUsername(), user2.getUsername()));
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        boolean actuallyDeleted = likeService.deleteLikeByID(common.getId().toHexString());
+        boolean actuallyDeleted = likeService.deleteLikeByID(common.getId());
 
         response.put("message", String.format("Like between %s and %s deleted.", user.getUsername(), user2.getUsername()));
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -83,7 +83,7 @@ public class LikeResource {
         User user = (User) request.getAttribute("user");
 
         // TODO: test me
-        List<Like> likes = likeService.findLikesByUserID(user.getId().toHexString());
+        List<Like> likes = likeService.findLikesByUserID(user.getId());
 
         response.put("objects", likes);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -95,7 +95,7 @@ public class LikeResource {
         User user = (User) request.getAttribute("user");
 
         // TODO: test me
-        List<Like> likes = likeService.findLikesOfUserID(user.getId().toHexString());
+        List<Like> likes = likeService.findLikesOfUserID(user.getId());
 
         response.put("objects", likes);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -107,7 +107,7 @@ public class LikeResource {
         User user = (User) request.getAttribute("user");
 
         // TODO: test me after implementing the query
-        List<Like> likes = likeService.findMatchesOfUserByID(user.getId().toHexString());
+        List<Like> likes = likeService.findMatchesOfUserByID(user.getId());
 
         response.put("objects", likes);
         return new ResponseEntity<>(response, HttpStatus.OK);

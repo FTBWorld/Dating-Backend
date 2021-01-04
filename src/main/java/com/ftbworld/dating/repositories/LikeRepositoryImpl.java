@@ -21,7 +21,7 @@ public class LikeRepositoryImpl implements LikeRepository {
     @Override
     public Like createLikeByUserIDs(String userID, String likedUserID) {
         Date date = new Date();
-        Like like = new Like(new ObjectId(), new ObjectId(userID), new ObjectId(likedUserID), date);
+        Like like = new Like(new ObjectId().toHexString(), userID, likedUserID, date);
 
         mongoTemplate.save(like);
 

@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User registerUser(String username, String password) {
         password = BCrypt.hashpw(password, BCrypt.gensalt(10));
         Date date = new Date();
-        User user = new User(new ObjectId(), username, password, username, "A new user...", date, date);
+        User user = new User(new ObjectId().toHexString(), username, password, username, "A new user...", date, date);
 
         mongoTemplate.save(user);
 

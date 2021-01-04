@@ -11,30 +11,30 @@ import java.util.Date;
 public class Like {
 
     @MongoId
-    private final ObjectId id;
+    private final String id;
 
-    private final ObjectId userID; // Someone who likes someone
-    private final ObjectId likedUserID; // The person someone likes
+    private final String userID; // Someone who likes someone
+    private final String likedUserID; // The person someone likes
 
     @CreatedDate
     private final Date createdAt;
 
-    public Like(ObjectId id, ObjectId userID, ObjectId likedUserID, Date createdAt) {
+    public Like(String id, String userID, String likedUserID, Date createdAt) {
         this.id = id;
         this.userID = userID;
         this.likedUserID = likedUserID;
         this.createdAt = createdAt;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public ObjectId getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public ObjectId getLikedUserID() {
+    public String getLikedUserID() {
         return likedUserID;
     }
 

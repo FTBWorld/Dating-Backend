@@ -14,7 +14,7 @@ import java.util.Date;
 public class User {
 
     @MongoId
-    private final ObjectId id;
+    private final String id;
 
     @Indexed(unique = true)
     private final String username;
@@ -29,7 +29,7 @@ public class User {
     @LastModifiedDate
     private final Date updatedAt;
 
-    public User(ObjectId id, String username, String password, String displayName, String bio, Date createdAt, Date updatedAt) {
+    public User(String id, String username, String password, String displayName, String bio, Date createdAt, Date updatedAt) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -39,7 +39,7 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
