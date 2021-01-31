@@ -15,5 +15,5 @@ Make sure to sync `pom.xml` if you're having dependency issues.
 - Fill out your own dating profile
 - Upload a profile picture to AWS S3
 - View other profiles (when logged in)
-- Right swipe and left swipe on other users
+- A user can like other users
 - See a list of your matches
