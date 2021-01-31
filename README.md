@@ -13,6 +13,7 @@ Make sure to sync `pom.xml` if you're having dependency issues.
 - Signup and login with a username and password
 - Authentication via JSON web tokens
 - Fill out your own dating profile
+- Upload a profile picture to AWS S3
 - View other profiles (when logged in)
-- "Like" other users
+- Right swipe and left swipe on other users
 - See a list of your matches
